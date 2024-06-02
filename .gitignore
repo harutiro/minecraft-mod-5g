@@ -1,0 +1,17 @@
+build
+IntelliJ IDEA CE.app
+jdk-17.0.1.jdk
+setup
+setup-mac.command
+setup-windows.bat
+bin
+.idea
+.gradle
+run
+build.gradle
+CREDITS.txt
+gradle.properties
+LICENSE.txt
+version.txt
+gradle
+.DS_Store
