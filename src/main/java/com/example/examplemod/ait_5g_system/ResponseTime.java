@@ -1,9 +1,9 @@
 package com.example.examplemod.ait_5g_system;
 
 import com.example.examplemod.ExampleMod;
+import com.example.examplemod.http.APIResponse;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = ExampleMod.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -22,6 +23,9 @@ public class ResponseTime {
 
     private static MinecraftServer serverInstance;
     private static final Logger LOGGER = LogManager.getLogger();
+    private static APIResponse apiResponse;
+    private static Date lastPingUpdateTime = new Date(0);
+
 
     @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
@@ -65,6 +69,13 @@ public class ResponseTime {
             RenderSystem.enableBlend();
             minecraft.font.drawShadow(event.getMatrixStack(), pingText, (width / 2.0f) - (textWidth / 2.0f), 10, 0xFFFFFF);
             RenderSystem.disableBlend();
+
+            apiResponse = new APIResponse();
+            Date now = new Date();
+            if (now.getTime() - lastPingUpdateTime.getTime() >= 10000) { // 1分（60000ミリ秒）経過しているか確認
+                apiResponse.postPingData(ping, "wifi");
+                lastPingUpdateTime = now;
+            }
         }
     }
 }
