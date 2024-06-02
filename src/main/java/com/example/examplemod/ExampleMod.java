@@ -1,5 +1,6 @@
 package com.example.examplemod;
 
+import com.example.examplemod.ait_5g_system.ResponseTime;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
@@ -36,6 +37,7 @@ public class ExampleMod {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         MinecraftForge.EVENT_BUS.register(this);
+        new ResponseTime();
     }
 
     private void setup(final FMLCommonSetupEvent event) {
